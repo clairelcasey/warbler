@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request, flash, redirect, session, g
+from flask import Flask, render_template, request, flash, redirect, session, g, url_for
 from flask_debugtoolbar import DebugToolbarExtension
 from sqlalchemy.exc import IntegrityError
 
@@ -198,7 +198,7 @@ def add_follow(follow_id):
     followed_user = User.query.get_or_404(follow_id)
     g.user.following.append(followed_user)
     db.session.commit()
-
+    
     return redirect(f"/users/{g.user.id}/following")
 
 
@@ -247,7 +247,8 @@ def profile():
         g.user.bio = form.bio.data
 
         db.session.commit()
-        return redirect(f'/users/{g.user.id}')
+        redirect_url = url_for('users_show', user_id=g.user.id)
+        return redirect(redirect_url)
 
     else:    
         return render_template(
@@ -321,7 +322,9 @@ def messages_destroy(message_id):
         db.session.delete(msg)
         db.session.commit()
 
-    return redirect(f"/users/{g.user.id}")
+    redirect_url = url_for('users_show', user_id=g.user.id)
+    return redirect(redirect_url)
+
 
 
 ##############################################################################
@@ -345,7 +348,10 @@ def likes_create_or_remove(message_id):
         else:
             g.user.liked_messages.remove(message)
         db.session.commit()
-    return redirect(f"/users/{g.user.id}")
+        
+    redirect_url = url_for('users_show', user_id=g.user.id)
+    return redirect(redirect_url)
+
 
 
 ##############################################################################
