@@ -260,8 +260,8 @@ def profile():
 
 @app.route('/users/delete', methods=["POST"])
 def delete_user():
-    # TODO: update docstring 
-    """Delete user."""
+    """If no user is logged in, redirect. If a user is logged in, call 
+    do_logout and remove user from g."""
 
     if not g.user:
         flash("Access unauthorized.", "danger")
@@ -318,10 +318,12 @@ def messages_destroy(message_id):
         flash("Access unauthorized.", "danger")
         return redirect("/")
 
-    # remove if statement here. If statement is something problematic
-    if msg.user_id == g.user.id:
-        db.session.delete(msg)
-        db.session.commit()
+    if msg.user_id != g.user.id:
+        flash("Can only delete messages you wrote", "danger")
+        return redirect(f"/users/{g.user.id}")
+
+    db.session.delete(msg)
+    db.session.commit()
 
     redirect_url = url_for('users_show', user_id=g.user.id)
     return redirect(redirect_url)
@@ -335,6 +337,9 @@ def messages_destroy(message_id):
 @app.route('/likes/<int:message_id>', methods=["POST"])
 def likes_create_or_remove(message_id):
     """ Create a like if currently not liked. Otherwise, remove like. """
+    if not g.user:
+        flash("Access unauthorized.", "danger")
+        return redirect("/")
 
     message = Message.query.get(message_id)
 
