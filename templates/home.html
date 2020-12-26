@@ -18,7 +18,7 @@
             <li class="stat">
               <p class="small">Messages</p>
               <h4>
-                <a href="/users/{{ g.user.id }}">
+                <a href="{{ url_for('users_show', user_id=g.user.id) }}">
                   {{ g.user.messages | length }}
                 </a>
               </h4>
@@ -54,20 +54,15 @@
             </a>
             <div class="message-area">
               {% if msg.user_id != g.user.id %}
-                <form 
-                action="/likes/{{ msg.id }}"
-                method="POST"
-                class="d-inline position-relative like-form">
-                {{ form.hidden_tag() }}
                   <button 
-                    class="btn btn-link p-0">
+                    class="btn btn-link p-0 like-btn position-relative"
+                    data-id={{ msg.id }}>
                     {% if msg in g.user.liked_messages %}
                       <i class="fas fa-dove"></i>
                     {% else %}
                       <i class="fas fa-dove text-secondary"></i>
                     {% endif %}
                   </button>
-                </form>
               {% endif %}
               <a href="/users/{{ msg.user.id }}">@{{ msg.user.username }}</a>
               <span class="text-muted">{{ msg.timestamp.strftime('%d %B %Y') }}</span>

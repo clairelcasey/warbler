@@ -77,10 +77,15 @@
   {% endblock %}
 
 </div>
-<script src="/static/script.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
+<script>
+      var csrf_token = "{{ csrf_token() }}";
+
+</script>
+<script src="/static/script.js"></script>
 </body>
 </html>

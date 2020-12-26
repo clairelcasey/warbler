@@ -1,36 +1,36 @@
 "use strict";
 
-const $likeForm = $(".like-form");
-console.log('like form', $likeForm);
-
+const $likeBtns = $(".like-btn");
 const BASE_URL = "http://127.0.0.1:5000";
 
 /* Function makes a post request to server */
 
-async function create_or_remove(path) {
-  console.debug('create_or_remove')
-  const response = await axios.post(path);
+async function create_or_remove(id) {
+  const response = await axios({
+    url: `${BASE_URL}/likes/${id}`,
+    method: "POST",
+    headers: {
+      "X-CSRFToken": csrf_token,
+    }
+  });
 }
 
 /* Handles a form submission. */
-async function handleFormSubmit(evt) {
-  console.debug('handleFormSubmit')
-  evt.preventDefault();
-  let path = evt.target.action;
-  await create_or_remove(path);
-  let $form = $(evt.target);
-  console.log($form);
-  let $icon = $form.closest('i');
-  debugger;
+
+async function handleBtnClick(evt) {
+  let $btn = $(evt.target).closest('button');
+  let id = $btn.attr('data-id');
+  await create_or_remove(id);
+  let $icon = $(evt.target);
   $icon.toggleClass('text-secondary');
-  console.log($icon, 'form after toggle');
 }
 
+/* On starting page, add event listener on like buttons */
+
 function start() {
-  for (let form of $likeForm) {
-    let $form = $(form);
-    $form.on('submit', handleFormSubmit);
-    console.log($form, 'form');
+  for (let btn of $likeBtns) {
+    let $btn = $(btn);
+    $btn.on('click', handleBtnClick);
   }
 }
 
