@@ -7,14 +7,10 @@ from sqlalchemy.exc import IntegrityError
 from forms import UserAddForm, LoginForm, MessageForm, UserUpdateForm, UserLogoutForm, LikeAddForm
 from models import db, connect_db, User, Message, Like
 
-
-
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-from flask_wtf.csrf import CSRFProtect
-csrf = CSRFProtect(app)
 
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.

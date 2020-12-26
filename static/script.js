@@ -8,10 +8,7 @@ const BASE_URL = "http://127.0.0.1:5000";
 async function create_or_remove(id) {
   const response = await axios({
     url: `${BASE_URL}/likes/${id}`,
-    method: "POST",
-    headers: {
-      "X-CSRFToken": csrf_token,
-    }
+    method: "POST"
   });
 }
 

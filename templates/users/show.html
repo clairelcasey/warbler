@@ -12,11 +12,11 @@
             <img src="{{ user.image_url }}" alt="user image" class="timeline-image">
           </a>
           <div class="message-area">
-            {% if msg.user_id != g.user.id %}
+            {% if message.user_id != g.user.id %}
             <button 
               class="btn btn-link p-0 like-btn position-relative"
-              data-id={{ msg.id }}>
-              {% if msg in g.user.liked_messages %}
+              data-id={{ message.id }}>
+              {% if message in g.user.liked_messages %}
                 <i class="fas fa-dove"></i>
               {% else %}
                 <i class="fas fa-dove text-secondary"></i>
