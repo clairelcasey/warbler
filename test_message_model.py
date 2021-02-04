@@ -24,7 +24,7 @@ from app import app
 
 db.create_all()
 
-# TODO: make a firle _test_util.py and store user data and message data there
+# TODO: make a file _test_util.py and store user data and message data there
 USER_DATA = {
     "email":"test@test.com",
     "username":"testuser",
