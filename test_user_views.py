@@ -91,7 +91,7 @@ class UserViewTestCase(TestCase):
        
         resp = c.get(
                 f"/users/{self.testuser_id}/following")
-
+        breakpoint()
         html = resp.get_data(as_text=True)
         self.assertIn("testuser2", html)
     
